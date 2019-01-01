@@ -9,3 +9,5 @@ spring:
     zookeeper:
       # zookeeper注册中心地址，默认localhost:2181
       connect-string: 47.106.137.210:2181
+
+
