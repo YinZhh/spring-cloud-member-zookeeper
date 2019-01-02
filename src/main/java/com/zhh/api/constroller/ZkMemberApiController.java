@@ -1,5 +1,7 @@
 package com.zhh.api.constroller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -19,6 +21,8 @@ import java.util.List;
 @RestController
 public class ZkMemberApiController {
 
+    private static final Logger Logger = LoggerFactory.getLogger(ZkMemberApiController.class);
+
     @Value("${server.port}")
     private String serverPort;
     @Value("${spring.application.name}")
@@ -32,6 +36,7 @@ public class ZkMemberApiController {
 
     @RequestMapping("/getMember")
     public String getmember() {
+        Logger.info("服务名： " + instanceName);
         return "this is member，我是会员zookeeper服务  端口号： " + instanceName + "  端口号： " + serverPort;
     }
 
@@ -39,7 +44,7 @@ public class ZkMemberApiController {
     public List<String> serviceUrl() {
         List<ServiceInstance> instances = discoveryClient.getInstances(instanceName);
         List<String> services = discoveryClient.getServices();
-
+        Logger.info("服务名： " + services);
         if (instances != null && instances.size() > 0) {
             instances.forEach(serviceInstance -> services.add(serviceInstance.getUri().toString()));
         }
